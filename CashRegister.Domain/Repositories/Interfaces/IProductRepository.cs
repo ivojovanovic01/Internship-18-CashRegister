@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using CashRegister.Data.Entities.Models;
 
 namespace CashRegister.Domain.Repositories.Interfaces
