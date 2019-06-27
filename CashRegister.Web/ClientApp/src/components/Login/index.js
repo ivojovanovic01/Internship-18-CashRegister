@@ -6,17 +6,33 @@ class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cashierUsername: "",
-      cashierPassword: "",
+      loginCashier: {
+        username: "",
+        password: ""
+      },
       cashier: {}
     };
   }
 
   handleChange = e => {
     const { target } = e;
-    this.setState({ [target.name]: target.value });
+    this.setState(state => ({
+      loginCashier: { ...state.loginCashier, [target.name]: target.value }
+    }));
   };
-  
+
+  handleSubmit = () => {
+    axios
+      .get("/api/cashiers/get-by-username-and-password", {
+        params: {
+          username: this.state.loginCashier.username,
+          password: this.state.loginCashier.password
+        }
+      })
+      .then(response => console.log(response.data))
+      .catch(err => alert("I can not find a cashier"));
+  }
+
   getCashier = () => {
     axios
       .get("/api/cashiers/get-by-id", {
@@ -24,11 +40,9 @@ class Login extends Component {
           id: 1
         }
       })
-      .then(response => {
-        console.log(response.data);
-      })
+      .then(response => {})
       .catch(err => alert("I can not find a cashier"));
-  }
+  };
 
   render() {
     const { cashierUsername, cashierPassword, cashier } = this.state;
@@ -36,25 +50,31 @@ class Login extends Component {
       <div className="home">
         <h1 onClick={this.getCashier()}>Welcome to cash register</h1>
 
-        <form className="login-form" method="post">
-          Cash register: Cashier username:
-          <input
-            type="text"
-            name="cashierUsername"
-            onChange={this.handleChange}
-            value={cashierUsername}
-            required
-          />
-          Cashier password:
-          <input
-            type="password"
-            name="cashierPassword"
-            onChange={this.handleChange}
-            value={cashierPassword}
-            required
-          />
-          <button type="submit">submit</button>
-        </form>
+        <div className="login-form">
+          <h1>Login In Cashier Account</h1>
+          <div className="cashierUsername">
+            <label>Username:</label>
+            <input
+              name="username"
+              onChange={this.handleChange}
+              value={cashierUsername}
+            />
+          </div>
+
+          <div className="cashierPassword">
+            <label>Password:</label>
+            <input
+              name="password"
+              type="password"
+              onChange={this.handleChange}
+              value={cashierUsername}
+            />
+          </div>
+
+          <div className="loginCashier">
+            <button type="submit" onClick={this.handleSubmit}>Login</button>
+          </div>
+        </div>
       </div>
     );
   }

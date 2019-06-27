@@ -19,5 +19,15 @@ namespace CashRegister.Domain.Repositories.Implementations
             var cashierWithThatId = _context.Cashiers.Include(c => c.CashRegisterCashiers).ThenInclude(c => c.CashRegister).FirstOrDefault(c => c.Id == id);
             return cashierWithThatId;
         }
+
+        public Cashier GetCashierByUsernameAndPassword(string username, string password)
+        {
+            var cashierWithThatUsernameAndPassword = 
+                _context.Cashiers.Include(c => c.CashRegisterCashiers)
+                .ThenInclude(c => c.CashRegister)
+                .FirstOrDefault(c => c.Username == username && c.Password == password);
+
+            return cashierWithThatUsernameAndPassword;
+        }
     }
 }
