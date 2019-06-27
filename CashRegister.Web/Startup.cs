@@ -30,6 +30,7 @@ namespace CashRegister.Web
 
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
+            services.AddScoped<ICashierRepository, CashierRepository>();
 
             services.AddMvc().AddJsonOptions(options => {
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
