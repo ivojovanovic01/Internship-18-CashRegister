@@ -29,9 +29,9 @@ class Login extends Component {
           password: this.state.loginCashier.password
         }
       })
-      .then(response => console.log(response.data))
+      .then(response => this.setState({ cashier: { ...response.data } }))
       .catch(err => alert("I can not find a cashier"));
-  }
+  };
 
   getCashier = () => {
     axios
@@ -72,9 +72,21 @@ class Login extends Component {
           </div>
 
           <div className="loginCashier">
-            <button type="submit" onClick={this.handleSubmit}>Login</button>
+            <button type="submit" onClick={this.handleSubmit}>
+              Login
+            </button>
           </div>
         </div>
+
+        {Object.getOwnPropertyNames(this.state.cashier).length === 0 ? (
+          <div>loading...</div>
+        ) : (
+          <div>
+            {cashier.cashRegisterCashiers.map(el => (
+              <p key={el.cashRegisterId}>{el.cashRegister.name}</p>
+            ))}
+          </div>
+        )}
       </div>
     );
   }
