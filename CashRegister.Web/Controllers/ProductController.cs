@@ -47,5 +47,11 @@ namespace CashRegister.Web.Controllers
                 return Ok(product);
             return NotFound();
         }
+
+        [HttpGet("search")]
+        public IActionResult GetSearchedProducts(string search)
+        {
+            return Ok(_productRepository.GetSearchedProducts(search));
+        }
     }
 }

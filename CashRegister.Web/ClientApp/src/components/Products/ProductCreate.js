@@ -30,7 +30,7 @@ class ProductCreate extends Component {
       product.barcode.length !== 13 ||
       product.price <= 0 ||
       product.availableQuantity < 1 ||
-      product.taxType !== ("Excise" || "Direct")
+      product.taxType === ""
     )
       return;
 

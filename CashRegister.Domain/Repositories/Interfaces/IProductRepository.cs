@@ -9,5 +9,6 @@ namespace CashRegister.Domain.Repositories.Interfaces
         bool AddProduct(Product productToAdd);
         bool EditProduct(Product editedProduct);
         Product GetProductById(int id);
+        List<Product> GetSearchedProducts(string search);
     }
 }

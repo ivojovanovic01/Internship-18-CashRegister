@@ -65,7 +65,11 @@ class ProductEdit extends Component {
         {product.price <= 0 && <div>problem</div>}
         <p>Available Quantity {product.availableQuantity}</p>
         <p>Tax type: </p>
-        <select>
+        <select
+          name="taxType"
+          onChange={e => this.handleChange(e)}
+          value={product.taxType}
+        >
           {TAX_TYPES.map((taxType, id) =>
             taxType === product.taxType ? (
               <option selected key={id}>

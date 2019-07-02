@@ -5,6 +5,7 @@ using CashRegister.Data.Entities;
 using CashRegister.Data.Entities.Models;
 using CashRegister.Data.Enums;
 using CashRegister.Domain.Repositories.Interfaces;
+using static System.String;
 
 namespace CashRegister.Domain.Repositories.Implementations
 {
@@ -24,10 +25,10 @@ namespace CashRegister.Domain.Repositories.Implementations
         public bool AddProduct(Product productToAdd)
         {
             var doesProductWithSameNameExist = _context.Products.Any(product =>
-                string.Equals(product.Name, productToAdd.Name, StringComparison.CurrentCultureIgnoreCase));
+                String.Equals(product.Name, productToAdd.Name, StringComparison.CurrentCultureIgnoreCase));
 
             var doesProductWithSameBarcodeExist = _context.Products.Any(product =>
-                string.Equals(product.Barcode, productToAdd.Barcode));
+                String.Equals(product.Barcode, productToAdd.Barcode));
 
             if (doesProductWithSameNameExist || productToAdd.Name.Length < 3 || productToAdd.AvailableQuantity < 1 || doesProductWithSameBarcodeExist || productToAdd.Barcode.Length != 13 || productToAdd.Price <= 0.0 || productToAdd.AvailableQuantity < 1)
                 return false;
@@ -41,7 +42,7 @@ namespace CashRegister.Domain.Repositories.Implementations
         public bool EditProduct(Product editedProduct)
         {
             var doesProductWithSameBarcodeExist = _context.Products.Any(product =>
-                string.Equals(product.Barcode, editedProduct.Barcode) && editedProduct.Id != product.Id);
+                Equals(product.Barcode, editedProduct.Barcode) && editedProduct.Id != product.Id);
 
             if (editedProduct.Barcode.Length != 13 && doesProductWithSameBarcodeExist || editedProduct.AvailableQuantity < 1)
                 return false;
@@ -61,8 +62,19 @@ namespace CashRegister.Domain.Repositories.Implementations
 
         public Product GetProductById(int id)
         {
-            var airportWithThatId = _context.Products.Find(id);
-            return airportWithThatId;
+            var productWithThatId = _context.Products.Find(id);
+            return productWithThatId;
+        }
+
+        public List<Product> GetSearchedProducts(string search)
+        {
+            if(IsNullOrEmpty(search))
+                return new List<Product>();
+
+            return _context.Products.Where(product =>
+                product.Name
+                    .Contains(search, StringComparison.OrdinalIgnoreCase) || product.Barcode.Contains(search))
+                .ToList();
         }
     }
 }
