@@ -2,13 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 import "./index.css";
 import { debounce } from "lodash";
+import ProductAvailableQuantityPopup from "./ProductAvailableQuantityPopup";
 
 class ProductsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       products: [],
-      search: ""
+      search: "",
+      showPopup: false,
+      selectedProduct: {}
     };
   }
 
@@ -42,6 +45,29 @@ class ProductsList extends Component {
     } else this.setState({ products: [] });
   };
 
+  togglePopup = product => {
+    this.setState({
+      showPopup: !this.state.showPopup,
+      selectedProduct: product
+    });
+  };
+
+  increaseQuantity = newQuantity => {
+    const productToEdit = this.state.selectedProduct;
+    productToEdit.availableQuantity += Number(newQuantity);
+    this.setState({ selectedProduct: productToEdit });
+    axios
+      .post(
+        "/api/products/increase-available-quantity",
+        this.state.selectedProduct
+      )
+      .then(
+        response =>
+        this.setState({showPopup: false, selectedProduct: null})
+      )
+      .catch(err => alert("I can not find product"));
+  };
+
   debouncedSearch = debounce(() => this.getSearchedProducts(), 1000);
 
   render() {
@@ -69,9 +95,18 @@ class ProductsList extends Component {
               <div>{product.price}kn</div>{" "}
               <div>{product.availableQuantity}kom</div>{" "}
               <div>{product.taxType}</div>
+              <div onClick={() => this.togglePopup(product)}>open popup</div>
             </div>
           ))
         )}
+        {this.state.showPopup ? (
+          <ProductAvailableQuantityPopup
+            text="Close Me"
+            closePopup={this.togglePopup}
+            product={this.state.selectedProduct}
+            increaseQuantity={this.increaseQuantity}
+          />
+        ) : null}
       </div>
     );
   }

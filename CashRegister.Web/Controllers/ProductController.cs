@@ -53,5 +53,14 @@ namespace CashRegister.Web.Controllers
         {
             return Ok(_productRepository.GetSearchedProducts(search));
         }
+
+        [HttpPost("increase-available-quantity")]
+        public IActionResult IncreaseProductAvailableQuantity(Product editedProduct)
+        {
+            var wasProductIncreaseAvailableQuantitySuccessful = _productRepository.IncreaseProductAvailableQuantity(editedProduct);
+            if (wasProductIncreaseAvailableQuantitySuccessful)
+                return Ok();
+            return NotFound();
+        }
     }
 }

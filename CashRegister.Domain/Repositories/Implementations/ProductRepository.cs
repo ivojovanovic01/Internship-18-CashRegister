@@ -76,5 +76,20 @@ namespace CashRegister.Domain.Repositories.Implementations
                     .Contains(search, StringComparison.OrdinalIgnoreCase) || product.Barcode.Contains(search))
                 .ToList();
         }
+
+        public bool IncreaseProductAvailableQuantity(Product editedProduct)
+        {
+            if (editedProduct.AvailableQuantity < 1)
+                return false;
+
+            var productToEdit = _context.Products.Find(editedProduct.Id);
+            if (productToEdit == null)
+                return false;
+
+            productToEdit.AvailableQuantity = editedProduct.AvailableQuantity;
+
+            _context.SaveChanges();
+            return true;
+        }
     }
 }
