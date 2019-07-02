@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import  { Redirect } from 'react-router-dom'
 import { Link } from "react-router-dom";
 
 class Home extends Component {
@@ -10,14 +11,17 @@ class Home extends Component {
     };
   }
 
+  redirectToProducts = () => {
+
+  }
 
   render() {
+    if(false) return <Redirect to='/'  />;
     const { cashierUsername, cashierPassword, cashier } = this.state;
-    return (
-      <div className="home">
-          ala
-      </div>
-    );
+    return <div className="home">
+      <div onClick={this.redirectToProducts}>Products</div>
+      <div>Receipts</div>
+    </div>;
   }
 }
 

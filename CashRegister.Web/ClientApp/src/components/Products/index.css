@@ -1,0 +1,8 @@
+.product {
+    background-color: gray;
+}   
+
+.product div, .categories div {
+    display: inline-block;
+    width: 19%;
+}
