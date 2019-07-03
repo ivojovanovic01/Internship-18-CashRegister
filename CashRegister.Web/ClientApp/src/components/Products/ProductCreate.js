@@ -12,7 +12,7 @@ class ProductCreate extends Component {
         barcode: 0,
         price: 0,
         availableQuantity: 1,
-        taxType: "Excise"
+        taxType: TAX_TYPES[0]
       }
     };
   }
@@ -37,7 +37,7 @@ class ProductCreate extends Component {
 
     axios
       .post("/api/products/add", this.state.product)
-      .then(response => this.props.history.push("/products/all"))
+      .then(response => this.props.history.push("/products"))
       .catch(err => alert("Create unsuccessfull"));
   };
 

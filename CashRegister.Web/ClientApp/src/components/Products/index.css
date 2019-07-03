@@ -1,3 +1,8 @@
+a {
+  text-decoration: none;
+  color: black;
+}
+
 .product {
   background-color: gray;
 }
@@ -60,4 +65,13 @@
 
 .product-btns .product-edit {
   background-color: #008cba;
+}
+
+.product-create {
+  position: absolute;
+  background-color: #FF851B;
+  color: white;
+  right: 80px;
+  top: 40px;
+  padding: 10px 20px 10px 20px;
 }

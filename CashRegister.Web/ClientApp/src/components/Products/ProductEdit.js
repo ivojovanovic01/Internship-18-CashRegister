@@ -38,7 +38,7 @@ class ProductEdit extends Component {
     console.log(this.props.history);
     axios
       .post("/api/products/edit", this.state.product)
-      .then(response => this.props.history.push("products/all"))
+      .then(response => this.props.history.push("/products"))
       .catch(err => alert("Edit unsuccessfull"));
   };
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import ProductAvailableQuantityPopup from "./ProductAvailableQuantityPopup";
 
 class ProductDetails extends Component {
@@ -25,9 +26,9 @@ class ProductDetails extends Component {
         <p>Available quantity: {product.availableQuantity}kom</p>
         <p>Tax type: {product.taxType.toLowerCase()}</p>
         <div className="product-btns">
-          <div className="product-edit" onClick={this.togglePopup}>
+          <Link className="product-edit" to={"/products/edit/"+product.id}>
             edit
-          </div>
+          </Link>
           <div
             className="product-available-quantity"
             onClick={this.togglePopup}

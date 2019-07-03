@@ -3,6 +3,7 @@ import "./index.css";
 import { debounce } from "lodash";
 import { getSearchedProducts } from "./../../utils/product";
 import ProductDetails from "./ProductDetails";
+import { Link } from "react-router-dom";
 
 class ProductsList extends Component {
   constructor(props) {
@@ -39,6 +40,7 @@ class ProductsList extends Component {
   render() {
     return (
       <div className="products">
+        <Link to="products/create" className="product-create">create</Link>
         <h1>All products</h1>
         <input
           type="text"
