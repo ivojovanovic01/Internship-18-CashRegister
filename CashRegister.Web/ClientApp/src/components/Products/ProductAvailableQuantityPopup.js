@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { availableQuantityIncrease } from "./../../utils/product";
 
-class ProductAvailableQuantityPopup extends React.Component {
+class ProductAvailableQuantityPopup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,13 +10,33 @@ class ProductAvailableQuantityPopup extends React.Component {
   }
   handleChange = e => {
     const { target } = e;
-    this.setState(state => ({
+    this.setState({
       [target.name]: target.value
-    }));
+    });
+  };
+
+  increaseAvailableQuantity = () => {
+    const { newQuantity } = this.state;
+    if (newQuantity < 1) return;
+
+    const editedProduct = {
+      ...this.props.product,
+      availableQuantity: this.props.product.availableQuantity + Number(newQuantity)
+    };
+
+    availableQuantityIncrease(editedProduct)
+      .then(this.changeProductAndClosePopup(editedProduct))
+      .catch(err => alert("I can not find product"));
+  };
+
+  changeProductAndClosePopup = editedProduct => {
+    const { changeProductInState, closePopup } = this.props;
+    changeProductInState(editedProduct);
+    closePopup();
   };
 
   render() {
-    const { product, increaseQuantity, closePopup } = this.props;
+    const { product, closePopup } = this.props;
     const { newQuantity } = this.state;
     return (
       <div className="popup">
@@ -31,7 +51,9 @@ class ProductAvailableQuantityPopup extends React.Component {
             onChange={this.handleChange}
           />
           <button onClick={closePopup}>close me</button>
-          <button onClick={() => increaseQuantity(newQuantity)}>add quantity</button>
+          <button onClick={() => this.increaseAvailableQuantity(newQuantity)}>
+            add quantity
+          </button>
         </div>
       </div>
     );

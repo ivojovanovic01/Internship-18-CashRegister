@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { TAX_TYPES } from "./../../enums/taxTypes";
+import { withRouter } from "react-router";
 
 class ProductCreate extends Component {
   constructor(props) {
@@ -36,7 +37,7 @@ class ProductCreate extends Component {
 
     axios
       .post("/api/products/add", this.state.product)
-      .then(response => this.props.history.push("products/all"))
+      .then(response => this.props.history.push("/products/all"))
       .catch(err => alert("Create unsuccessfull"));
   };
 
@@ -93,4 +94,4 @@ class ProductCreate extends Component {
   }
 }
 
-export default ProductCreate;
+export default withRouter(ProductCreate);
