@@ -15,8 +15,8 @@ class Home extends Component {
     const { cashierUsername, cashierPassword, cashier } = this.state;
     return <div className="home">
       <Link to="/products">Products</Link>
-      <div>Create receipt</div>
-      <div>All receipts</div>
+      <Link to="/receipts/create">Create receipt</Link>
+      <Link to="/receipts">All receipts</Link>
     </div>;
   }
 }
