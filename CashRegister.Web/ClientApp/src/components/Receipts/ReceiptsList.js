@@ -3,13 +3,15 @@ import { Redirect, Link } from "react-router-dom";
 import { getReceipts } from "./../../utils/receipt";
 import ReceiptCard from "./ReceiptCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import DatePicker from "react-date-picker";
 
 class ReceiptsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       receipts: [],
-      pageNumber: 0
+      pageNumber: 0,
+      filterDate: null
     };
   }
 
@@ -23,21 +25,39 @@ class ReceiptsList extends Component {
 
   loadFunc = () => {
     this.setState({ pageNumber: ++this.state.pageNumber });
-    getReceipts(this.state.pageNumber)
+    getReceipts(this.state.pageNumber, this.state.filterDate)
       .then(data =>
         this.setState({ receipts: this.state.receipts.concat(data) })
       )
       .catch(err => alert("I can not find receipts"));
   };
 
+  handleChange = date => {
+    this.setState({
+      filterDate: date
+    });
+  };
+
+  handleClickDateFilter = () => {
+    this.setState({pageNumber: 1, receipts: []})
+    getReceipts(1, this.state.filterDate)
+      .then(data =>
+        this.setState({ receipts: this.state.receipts.concat(data) })
+      )
+      .catch(err => alert("I can not find receipts"));
+  }
+
   render() {
     if (false) return <Redirect to="/" />;
     return (
       <div className="recepit-create">
         <h1>All receipts</h1>
-        <input type="date" />
+        <DatePicker
+          onChange={date => this.handleChange(date)}
+          value={this.state.filterDate}
+        />
 
-        <div>filter</div>
+        <div onClick={this.handleClickDateFilter}>filter</div>
 
         <InfiniteScroll
           dataLength={this.state.receipts.length}

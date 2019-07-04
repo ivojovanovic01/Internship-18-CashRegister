@@ -1,14 +1,14 @@
 import axios from "axios";
 
-export const getReceipts = pageNumber => {
+export const getReceipts = (pageNumber, filterDate) => {
     const loggedAccount = JSON.parse(localStorage.getItem("account"));
-    console.log(pageNumber)
   return axios
     .get("/api/receipts/filtered", {
       params: {
         cashierId: loggedAccount.cashierId,
         cashRegisterId: loggedAccount.cashRegisterId,
-        pageNumber
+        pageNumber,
+        filterDate
       }
     })
     .then(response => response.data);

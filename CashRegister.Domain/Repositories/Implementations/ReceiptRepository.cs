@@ -21,13 +21,16 @@ namespace CashRegister.Domain.Repositories.Implementations
             return _context.Receipts.ToList();
         }
 
-        public List<Receipt> GetReceipts(int cashierId, int cashRegisterId, int pageNumber)
+        public List<Receipt> GetReceipts(int cashierId, int cashRegisterId, int pageNumber, DateTime? filterDate)
         {
             var cashier = _context.Cashiers.Include(c => c.Receipts).ThenInclude(r => r.CashRegister).FirstOrDefault(c => c.Id == cashierId);
             if(cashier == null)
                 return new List<Receipt>();
 
-            return cashier.Receipts.OrderBy(r => r.TaxFreePrice).Skip(pageNumber * 5).Take(5).ToList(); //OrderBy(r => r.CreatedTime)
+            if (filterDate == null)
+                return cashier.Receipts.OrderBy(r => r.CreatedTime).Skip(pageNumber * 5).Take(5).ToList();
+
+            return cashier.Receipts.Where(r => r.CreatedTime.Date.Equals(filterDate)).OrderBy(r => r.CreatedTime).Skip(pageNumber * 5).Take(5).ToList();
         }
 
         public bool AddReceipt(Receipt receiptToAdd)

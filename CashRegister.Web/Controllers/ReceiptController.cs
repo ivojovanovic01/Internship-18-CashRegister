@@ -26,9 +26,9 @@ namespace CashRegister.Web.Controllers
         }
 
         [HttpGet("filtered")]
-        public IActionResult GetReceipts(int cashierId, int cashRegisterId, int pageNumber)
+        public IActionResult GetReceipts(int cashierId, int cashRegisterId, int pageNumber, DateTime? filterDate)
         {
-            return Ok(_receiptRepository.GetReceipts(cashierId, cashRegisterId, pageNumber));
+            return Ok(_receiptRepository.GetReceipts(cashierId, cashRegisterId, pageNumber, filterDate));
         }
 
 
