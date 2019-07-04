@@ -47,7 +47,7 @@ class ProductsList extends Component {
           onChange={this.handleChangeSearchInput}
           placeholder={"search by name or barcode..."}
         />
-        {this.state.products.lenght <= 0 ? (
+        {this.state.products === [] ? (
           <div>No products</div>
         ) : (
           this.state.products.map(product => (

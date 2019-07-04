@@ -25,6 +25,13 @@ namespace CashRegister.Web.Controllers
             return Ok(_receiptRepository.GetAllReceipts());
         }
 
+        [HttpGet("filtered")]
+        public IActionResult GetReceipts(int cashierId, int cashRegisterId, int pageNumber)
+        {
+            return Ok(_receiptRepository.GetReceipts(cashierId, cashRegisterId, pageNumber));
+        }
+
+
         [HttpPost("add")]
         public IActionResult AddReceipt(Receipt receiptToAdd)
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using CashRegister.Data.Entities;
 using CashRegister.Data.Entities.Models;
 using CashRegister.Domain.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CashRegister.Domain.Repositories.Implementations
 {
@@ -18,6 +19,15 @@ namespace CashRegister.Domain.Repositories.Implementations
         public List<Receipt> GetAllReceipts()
         {
             return _context.Receipts.ToList();
+        }
+
+        public List<Receipt> GetReceipts(int cashierId, int cashRegisterId, int pageNumber)
+        {
+            var cashier = _context.Cashiers.Include(c => c.Receipts).ThenInclude(r => r.CashRegister).FirstOrDefault(c => c.Id == cashierId);
+            if(cashier == null)
+                return new List<Receipt>();
+
+            return cashier.Receipts.OrderBy(r => r.TaxFreePrice).Skip(pageNumber * 5).Take(5).ToList(); //OrderBy(r => r.CreatedTime)
         }
 
         public bool AddReceipt(Receipt receiptToAdd)
@@ -41,7 +51,8 @@ namespace CashRegister.Domain.Repositories.Implementations
 
         public Receipt GetReceiptById(Guid id)
         {
-            var receiptWithThatId = _context.Receipts.Find(id);
+            var receiptWithThatId = _context.Receipts.Include(r => r.ReceiptProducts).ThenInclude(rp => rp.Product)
+                .FirstOrDefault(r => r.Id == id);
             return receiptWithThatId;
         }
     }
