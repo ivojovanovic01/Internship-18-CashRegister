@@ -25,7 +25,7 @@ class ReceiptCard extends Component {
       <div className="recepit-card">
         <h1>{receipt.id}</h1>
         <h2>{receipt.createdTime}</h2>
-        <p>Total price: {receipt.totalPrice}</p>
+        <p>Total price: {receipt.taxFreePrice}</p>
         <div onClick={this.togglePopup}>Show more</div>
         {
             this.state.showPopup && <ReceiptDetailsPopup receiptId={receipt.id} closePopup={this.togglePopup}/>

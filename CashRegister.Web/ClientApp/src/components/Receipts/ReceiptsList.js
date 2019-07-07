@@ -20,10 +20,15 @@ class ReceiptsList extends Component {
       "account",
       JSON.stringify({ cashierId: 1, cashRegisterId: 1 })
     );
-    this.loadFunc();
+    getReceipts(0, this.state.filterDate)
+      .then(data =>
+        this.setState({ receipts: this.state.receipts.concat(data) })
+      )
+      .catch(err => alert("I can not find receipts"));
   }
 
   loadFunc = () => {
+    console.log(this.state.pageNumber)
     this.setState({ pageNumber: ++this.state.pageNumber });
     getReceipts(this.state.pageNumber, this.state.filterDate)
       .then(data =>
@@ -40,7 +45,8 @@ class ReceiptsList extends Component {
 
   handleClickDateFilter = () => {
     this.setState({pageNumber: 1, receipts: []})
-    getReceipts(1, this.state.filterDate)
+    console.log(typeof(this.state.filterDate))
+    getReceipts(0, this.state.filterDate)
       .then(data =>
         this.setState({ receipts: this.state.receipts.concat(data) })
       )

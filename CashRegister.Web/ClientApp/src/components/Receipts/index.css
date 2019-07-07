@@ -24,3 +24,15 @@
     background: white;
     z-index: 10;
   }
+
+  .products_popup_inner {
+    position: absolute;
+    left: 10%;
+    right: 10%;
+    top: 10%;
+    bottom: 10%;
+    margin: auto;
+    background: white;
+    z-index: 10;
+    overflow:auto;
+  }

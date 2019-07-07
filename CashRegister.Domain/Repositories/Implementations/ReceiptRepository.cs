@@ -28,9 +28,9 @@ namespace CashRegister.Domain.Repositories.Implementations
                 return new List<Receipt>();
 
             if (filterDate == null)
-                return cashier.Receipts.OrderBy(r => r.CreatedTime).Skip(pageNumber * 5).Take(5).ToList();
+                return cashier.Receipts.OrderBy(r => r.TaxFreePrice).Skip(pageNumber * 5).Take(5).ToList();
 
-            return cashier.Receipts.Where(r => r.CreatedTime.Date.Equals(filterDate)).OrderBy(r => r.CreatedTime).Skip(pageNumber * 5).Take(5).ToList();
+            return cashier.Receipts.Where(r => r.CreatedTime.Date == filterDate.Value.Date).OrderBy(r => r.CreatedTime).Skip(pageNumber * 5).Take(5).ToList();
         }
 
         public bool AddReceipt(Receipt receiptToAdd)
@@ -40,12 +40,12 @@ namespace CashRegister.Domain.Repositories.Implementations
             if (doesReceiptExist || receiptToAdd.CashRegister != null 
                                  || receiptToAdd.CreatedTime > DateTime.Now 
                                  || receiptToAdd.ReceiptProducts.Count != 0 
-                                 || receiptToAdd.TotalPrice <= 0.0
-                                 || receiptToAdd.ReceiptProducts.All(receiptProduct => receiptProduct.Product != null 
-                                                                                       || receiptProduct.ProductQuantity > 0 
-                                                                                       || receiptProduct.ProductUnitPrice > 0.0))
+                                 || receiptToAdd.TotalPrice <= 0.0)
                 return false;
             //provjera jeli ima previse proizvoda na racunu a nema u stvr
+            //receiptToAdd.ReceiptProducts.All(receiptProduct => receiptProduct.Product != null 
+            //|| receiptProduct.ProductQuantity > 0
+             //   || receiptProduct.ProductUnitPrice > 0.0)
             _context.Receipts.Add(receiptToAdd);
             _context.SaveChanges();
 

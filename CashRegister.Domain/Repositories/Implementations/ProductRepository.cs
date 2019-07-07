@@ -91,5 +91,10 @@ namespace CashRegister.Domain.Repositories.Implementations
             _context.SaveChanges();
             return true;
         }
+
+        public List<string> GetProductTaxTypeEnumValues()
+        {
+            return Enum.GetNames(typeof(TaxType)).ToList();
+        }
     }
 }

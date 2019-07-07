@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./index.css";
 import { debounce } from "lodash";
 import { getSearchedProducts } from "./../../utils/product";
-import ProductDetails from "./ProductDetails";
+import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 
 class ProductsList extends Component {
@@ -51,7 +51,7 @@ class ProductsList extends Component {
           <div>No products</div>
         ) : (
           this.state.products.map(product => (
-            <ProductDetails
+            <ProductCard
               key={product.id}
               product={product}
               changeProductInState={this.changeProductInState}
