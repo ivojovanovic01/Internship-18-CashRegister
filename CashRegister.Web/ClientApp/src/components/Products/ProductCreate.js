@@ -1,7 +1,14 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { TAX_TYPES } from "./../../enums/taxTypes";
 import { withRouter } from "react-router";
+import ProductCreateForm from "./ProductCreateForm";
+import {
+  isBarcodeValid,
+  isNameValid,
+  isPriceValid,
+  isQuantityValid,
+  isValueNumber,
+  createProduct
+} from "./../../utils/product";
 
 class ProductCreate extends Component {
   constructor(props) {
@@ -9,10 +16,10 @@ class ProductCreate extends Component {
     this.state = {
       product: {
         name: "",
-        barcode: 0,
-        price: 0,
-        availableQuantity: 1,
-        taxType: TAX_TYPES[0]
+        barcode: "",
+        price: "",
+        availableQuantity: "",
+        taxType: ""
       }
     };
   }
@@ -24,71 +31,82 @@ class ProductCreate extends Component {
     }));
   };
 
-  createProduct = () => {
-    const { product } = this.state;
-    if (
-      product.name.length < 3 ||
-      product.barcode.length !== 13 ||
-      product.price <= 0 ||
-      product.availableQuantity < 1 ||
-      product.taxType === ""
-    )
-      return;
-
-    axios
-      .post("/api/products/add", this.state.product)
-      .then(response => this.props.history.push("/products"))
-      .catch(err => alert("Create unsuccessfull"));
+  handleChangeNumber = e => {
+    const { target } = e;
+    const prevValue = this.state.product[target.name];
+    const value = isValueNumber(target.value) ? target.value : prevValue;
+    this.setState(state => ({
+      product: { ...state.product, [target.name]: value }
+    }));
   };
 
+  handleChangePrice = e => {
+    const { value } = e.target;
+    const prevPrice = this.state.product.price;
+    const price = value >= 0 ? value : prevPrice;
+    this.setState(state => ({
+      product: { ...state.product, price }
+    }));
+  };
+
+  setTaxTypeDefaultValue = taxType => {
+    this.setState(state => ({
+      product: { ...state.product, taxType }
+    }));
+  };
+
+  createProduct = () => {
+    const { product } = this.state;
+    const {history} = this.props;
+
+    if (this.isProductNonValid()) return alert("Check the entered data");
+
+    createProduct(product)
+      .then(data => {
+        alert(`Product: ${product.name} is successfully created`);
+        history.push("/products");
+      })
+      .catch(err => alert("The name/barcode already exists"));
+  };
+
+  isProductNonValid = () => {
+    const { product } = this.state;
+    return (
+      !isNameValid(product.name) ||
+      !isBarcodeValid(product.barcode) ||
+      !isPriceValid(product.price) ||
+      !isQuantityValid(product.availableQuantity) ||
+      product.taxType === ""
+    );
+  };
+  
   render() {
     const { product } = this.state;
     return (
-      <div className="products">
-        <h1>Product name:</h1>
-        <input
-          name="name"
-          value={product.name || ""}
-          onChange={e => this.handleChange(e)}
-        />
-        {String(product.name).length < 3 && <div>problem</div>}
-        <p>Barcode: </p>
-        <input
-          type="number"
-          name="barcode"
-          value={product.barcode || ""}
-          onChange={e => this.handleChange(e)}
-        />
-        {String(product.barcode).length !== 13 && <div>problem</div>}
-        <p>Product price: </p>
-        <input
-          type="number"
-          name="price"
-          value={product.price || ""}
-          onChange={e => this.handleChange(e)}
-        />
-        {product.price <= 0 && <div>problem</div>}
-        <p>Available Quantity</p>
-        <input
-          type="number"
-          name="availableQuantity"
-          value={product.availableQuantity || ""}
-          onChange={e => this.handleChange(e)}
-        />
-        {product.availableQuantity < 1 && <div>problem</div>}
-        <p>Tax type: </p>
-        <select
-          name="taxType"
-          onChange={e => this.handleChange(e)}
-          value={product.taxType}
-        >
-          {TAX_TYPES.map((taxType, id) => (
-            <option value={taxType} key={id}>
-              {taxType}
-            </option>
-          ))}
-        </select>
-        <input type="submit" onClick={this.createProduct} />
+      <div className="create-product">
+        <h1>Create product</h1>
+        <div className="create-product-form">
+          <ProductCreateForm
+            product={product}
+            handleChange={this.handleChange}
+            handleChangeNumber={this.handleChangeNumber}
+            handleChangePrice={this.handleChangePrice}
+            setTaxTypeDefaultValue={this.setTaxTypeDefaultValue}
+          />
+          {this.isProductNonValid() ? (
+            <input
+              type="submit"
+              className="non-valid-product-submit"
+              onClick={this.createProduct}
+            />
+          ) : (
+            <input
+              type="submit"
+              className="valid-product-submit"
+              onClick={this.createProduct}
+            />
+          )}
+        </div>
       </div>
     );
   }

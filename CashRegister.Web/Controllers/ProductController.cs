@@ -62,5 +62,12 @@ namespace CashRegister.Web.Controllers
                 return Ok();
             return NotFound();
         }
+
+        [HttpGet("all-tax-types")]
+        public IActionResult GetProductTaxTypeEnumValues()
+        {
+            return Ok(_productRepository.GetProductTaxTypeEnumValues());
+        }
+
     }
 }

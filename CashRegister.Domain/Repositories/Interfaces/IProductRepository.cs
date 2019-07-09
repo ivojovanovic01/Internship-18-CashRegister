@@ -11,5 +11,6 @@ namespace CashRegister.Domain.Repositories.Interfaces
         Product GetProductById(int id);
         List<Product> GetSearchedProducts(string search);
         bool IncreaseProductAvailableQuantity(Product editedProduct);
+        List<string> GetProductTaxTypeEnumValues();
     }
 }

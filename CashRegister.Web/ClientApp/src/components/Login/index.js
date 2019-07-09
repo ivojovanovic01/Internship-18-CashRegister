@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import ChooseCashRegister from "./ChooseCashRegister";
 
@@ -18,7 +17,6 @@ class Login extends Component {
   };
 
   render() {
-    const { cashierUsername, cashierPassword, cashier } = this.state;
     return (
       <div className="home">
         <LoginForm

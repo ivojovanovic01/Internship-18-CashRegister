@@ -1,63 +1,75 @@
 import React, { Component } from "react";
-import "./index.css";
 import { debounce } from "lodash";
+import { Link } from "react-router-dom";
 import { getSearchedProducts } from "./../../utils/product";
 import ProductCard from "./ProductCard";
-import { Link } from "react-router-dom";
 
 class ProductsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       products: [],
-      search: ""
+      search: "",
+      isSearched: false
     };
   }
 
   handleChangeSearchInput = e => {
     const { value } = e.target;
     if (value.length >= 3) {
-      this.setState({ search: value });
+      this.setState({ search: value, isSearched: false });
       this.debouncedSearch();
-    } else this.setState({ products: [] });
+    } else this.setState({ products: [], search: "", isSearched: false });
   };
 
   debouncedSearch = debounce(
     () =>
       getSearchedProducts(this.state.search)
-        .then(data => this.setState({ products: data }))
-        .catch(err => alert("I can not find product")),
+        .then(data => this.setState({ products: data, isSearched: true }))
+        .catch(err => alert("I can not find products")),
     1000
   );
 
   changeProductInState = editedProduct => {
-    const {products} = this.state;
+    const { products } = this.state;
     const productToEditId = products.findIndex(p => p.id === editedProduct.id);
-    products[productToEditId].availableQuantity = editedProduct.availableQuantity;
-    this.setState({products})
+    products[productToEditId].availableQuantity =
+      editedProduct.availableQuantity;
+    this.setState({ products });
   };
 
   render() {
+    const { products, search, isSearched } = this.state;
     return (
       <div className="products">
-        <Link to="products/create" className="product-create">create</Link>
-        <h1>All products</h1>
+        <Link to="products/create" className="product-create">
+          create
+        </Link>
+        <h1>Products</h1>
         <input
+          className="product-search"
           type="text"
           onChange={this.handleChangeSearchInput}
           placeholder={"search by name or barcode..."}
         />
-        {this.state.products === [] ? (
-          <div>No products</div>
-        ) : (
+        {search.length < 3 && (
+          <div className="serach-information">
+            You need to enter at least 3 letters
+          </div>
+        )}
+        {isSearched && !products.length && search.length >= 3 && (
+          <div className="no-products-information">
+            There is no searched products
+          </div>
+        )}
+        {isSearched &&
           this.state.products.map(product => (
             <ProductCard
               key={product.id}
               product={product}
               changeProductInState={this.changeProductInState}
             />
-          ))
-        )}
+          ))}
       </div>
     );
   }

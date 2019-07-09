@@ -75,3 +75,78 @@ a {
   top: 40px;
   padding: 10px 20px 10px 20px;
 }
+
+.product-search {
+  width: 30%;
+  padding: 10px 15px;
+  box-sizing: border-box;
+  border: 1px solid #555;
+}
+
+.serach-information, .wrong-input-information {
+  color: red;
+  font-size: 14px;
+}
+
+.no-products-information {
+  color: red;
+  font-size: 50px;
+  text-align: center;
+  margin-top: 10%;
+}
+
+.create-product-form {
+  background-color: #FFDC00;
+  width: 400px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.create-product-form p {
+  text-align:center;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.create-product-form input[type=text], .create-product-form input[type=number] {
+  width: 100%;
+  text-align:center;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.create-product-form select  {
+  display: block;
+  margin: auto;
+  width: 30%;
+  padding: 10px 0 10px 0;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.create-product-form .valid-product-submit,.create-product-form .non-valid-product-submit  {
+  border: none;
+  padding: 15px 0px;
+  width: 100%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 50px;
+}
+
+.valid-product-submit {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.non-valid-product-submit {
+  background-color: #e7e7e7;
+  color: black;
+}
