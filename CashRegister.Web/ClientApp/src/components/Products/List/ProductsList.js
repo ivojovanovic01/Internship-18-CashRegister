@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { debounce } from "lodash";
 import { Link } from "react-router-dom";
-import { getSearchedProducts } from "./../../utils/product";
-import ProductCard from "./ProductCard";
+import { withRouter } from "react-router";
+import { getSearchedProducts } from "../../../utils/product";
+import ProductCards from "./ProductCards";
+import ProductSearchMessages from "./ProductSearchMessages";
 
 class ProductsList extends Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class ProductsList extends Component {
     };
   }
 
-  handleChangeSearchInput = e => {
+  handleChangeSearch = e => {
     const { value } = e.target;
     if (value.length >= 3) {
       this.setState({ search: value, isSearched: false });
@@ -49,30 +51,22 @@ class ProductsList extends Component {
         <input
           className="product-search"
           type="text"
-          onChange={this.handleChangeSearchInput}
+          onChange={this.handleChangeSearch}
           placeholder={"search by name or barcode..."}
         />
-        {search.length < 3 && (
-          <div className="serach-information">
-            You need to enter at least 3 letters
-          </div>
-        )}
-        {isSearched && !products.length && search.length >= 3 && (
-          <div className="no-products-information">
-            There is no searched products
-          </div>
-        )}
-        {isSearched &&
-          this.state.products.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              changeProductInState={this.changeProductInState}
-            />
-          ))}
+        <ProductSearchMessages
+          isSearched={isSearched}
+          searchLength={search.length}
+          productsLength={products.length}
+        />
+        <ProductCards
+          products={products}
+          isSearched={isSearched}
+          changeProductInState={this.changeProductInState}
+        />
       </div>
     );
   }
 }
 
-export default ProductsList;
+export default withRouter(ProductsList);

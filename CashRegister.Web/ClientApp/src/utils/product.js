@@ -29,6 +29,20 @@ export const createProduct = product => {
     .then(response => response.data);
 };
 
+export const getProduct = id => {
+  return axios
+    .get("/api/products/get-by-id", {
+      params: { id }
+    })
+    .then(response => response.data);
+};
+
+export const editProduct = editedProduct => {
+  return axios
+    .post("/api/products/edit", editedProduct)
+    .then(response => response.data);
+};
+
 export const isNameValid = name => {
   return name.length >= 3;
 };
@@ -47,4 +61,22 @@ export const isQuantityValid = quantity => {
 
 export const isValueNumber = value => {
   return RegExp("^[0-9]*$").test(value);
+};
+
+export const isProductNonValid = product => {
+  return (
+    !isNameValid(product.name) ||
+    !isBarcodeValid(product.barcode) ||
+    !isPriceValid(product.price) ||
+    !isQuantityValid(product.availableQuantity) ||
+    product.taxType === ""
+  );
+};
+
+export const isEditedProductNonValid = product => {
+  return (
+    !isBarcodeValid(product.barcode) ||
+    !isPriceValid(product.price) ||
+    product.taxType === ""
+  );
 };

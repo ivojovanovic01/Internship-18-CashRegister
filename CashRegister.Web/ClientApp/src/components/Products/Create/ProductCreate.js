@@ -2,13 +2,10 @@ import React, { Component } from "react";
 import { withRouter } from "react-router";
 import ProductCreateForm from "./ProductCreateForm";
 import {
-  isBarcodeValid,
-  isNameValid,
-  isPriceValid,
-  isQuantityValid,
   isValueNumber,
-  createProduct
-} from "./../../utils/product";
+  createProduct,
+  isProductNonValid
+} from "../../../utils/product";
 
 class ProductCreate extends Component {
   constructor(props) {
@@ -57,56 +54,31 @@ class ProductCreate extends Component {
 
   createProduct = () => {
     const { product } = this.state;
-    const {history} = this.props;
+    const { history } = this.props;
 
-    if (this.isProductNonValid()) return alert("Check the entered data");
+    if (isProductNonValid(product)) return;
 
     createProduct(product)
-      .then(data => {
+      .then(() => {
         alert(`Product: ${product.name} is successfully created`);
         history.push("/products");
       })
-      .catch(err => alert("The name/barcode already exists"));
+      .catch(() => alert("The name/barcode already exists"));
   };
 
-  isProductNonValid = () => {
-    const { product } = this.state;
-    return (
-      !isNameValid(product.name) ||
-      !isBarcodeValid(product.barcode) ||
-      !isPriceValid(product.price) ||
-      !isQuantityValid(product.availableQuantity) ||
-      product.taxType === ""
-    );
-  };
-  
   render() {
     const { product } = this.state;
     return (
       <div className="create-product">
         <h1>Create product</h1>
-        <div className="create-product-form">
-          <ProductCreateForm
-            product={product}
-            handleChange={this.handleChange}
-            handleChangeNumber={this.handleChangeNumber}
-            handleChangePrice={this.handleChangePrice}
-            setTaxTypeDefaultValue={this.setTaxTypeDefaultValue}
-          />
-          {this.isProductNonValid() ? (
-            <input
-              type="submit"
-              className="non-valid-product-submit"
-              onClick={this.createProduct}
-            />
-          ) : (
-            <input
-              type="submit"
-              className="valid-product-submit"
-              onClick={this.createProduct}
-            />
-          )}
-        </div>
+        <ProductCreateForm
+          product={product}
+          handleChange={this.handleChange}
+          handleChangeNumber={this.handleChangeNumber}
+          handleChangePrice={this.handleChangePrice}
+          setTaxTypeDefaultValue={this.setTaxTypeDefaultValue}
+          handleClick={this.createProduct}
+        />
       </div>
     );
   }

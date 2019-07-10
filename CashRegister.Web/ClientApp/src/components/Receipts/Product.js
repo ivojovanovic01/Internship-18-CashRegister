@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { debounce } from "lodash";
 import { getSearchedProducts } from "./../../utils/product";
-import ProductDetails from "./../Products/ProductDetails";
+import ProductDetails from "./../Products/List/ProductDetails";
 import ProductQuantity from "./ProductQuantity";
 
 class Product extends Component {

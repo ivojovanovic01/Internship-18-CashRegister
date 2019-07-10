@@ -4,7 +4,7 @@ import ReceiptsList from "./ReceiptsList";
 import ReceiptCreate from "./ReceiptCreate";
 import "./index.css";
 
-const Products = () => {
+const Receipts = () => {
   return (
     <Switch>
       <Route
@@ -21,4 +21,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Receipts;

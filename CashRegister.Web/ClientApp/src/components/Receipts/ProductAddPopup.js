@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { Redirect, Link } from "react-router-dom";
 import { debounce } from "lodash";
 import { getSearchedProducts } from "./../../utils/product";
-import ProductDetails from "./../Products/ProductDetails";
 import Product from "./Product";
 
 class ProductAddPopup extends Component {
