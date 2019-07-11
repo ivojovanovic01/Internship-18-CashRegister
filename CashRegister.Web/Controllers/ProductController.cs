@@ -14,12 +14,6 @@ namespace CashRegister.Web.Controllers
         }
         private readonly IProductRepository _productRepository;
 
-        [HttpGet("all")]
-        public IActionResult GetAllProducts()
-        {
-            return Ok(_productRepository.GetAllProducts());
-        }
-
         [HttpPost("add")]
         public IActionResult AddProduct(Product productToAdd)
         {
@@ -28,15 +22,6 @@ namespace CashRegister.Web.Controllers
             if (wasAddSuccessful)
                 return Ok();
             return Forbid();
-        }
-
-        [HttpPost("edit")]
-        public IActionResult EditProduct(Product editedProduct)
-        {
-            var wasEditSuccessful = _productRepository.EditProduct(editedProduct);
-            if (wasEditSuccessful)
-                return Ok();
-            return NotFound();
         }
 
         [HttpGet("get-by-id")]
@@ -48,10 +33,25 @@ namespace CashRegister.Web.Controllers
             return NotFound();
         }
 
+        [HttpGet("all")]
+        public IActionResult GetAllProducts()
+        {
+            return Ok(_productRepository.GetAllProducts());
+        }
+
         [HttpGet("search")]
         public IActionResult GetSearchedProducts(string search)
         {
             return Ok(_productRepository.GetSearchedProducts(search));
+        }
+
+        [HttpPost("edit")]
+        public IActionResult EditProduct(Product editedProduct)
+        {
+            var wasEditSuccessful = _productRepository.EditProduct(editedProduct);
+            if (wasEditSuccessful)
+                return Ok();
+            return NotFound();
         }
 
         [HttpPost("increase-available-quantity")]
@@ -68,6 +68,5 @@ namespace CashRegister.Web.Controllers
         {
             return Ok(_productRepository.GetProductTaxTypeEnumValues());
         }
-
     }
 }

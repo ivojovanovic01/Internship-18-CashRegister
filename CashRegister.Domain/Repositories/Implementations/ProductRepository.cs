@@ -15,86 +15,104 @@ namespace CashRegister.Domain.Repositories.Implementations
         {
             _context = context;
         }
-
         private readonly CashRegisterContext _context;
-        public List<Product> GetAllProducts()
-        {
-            return _context.Products.ToList();
-        }
-
         public bool AddProduct(Product productToAdd)
         {
-            var doesProductWithSameNameExist = _context.Products.Any(product =>
-                String.Equals(product.Name, productToAdd.Name, StringComparison.CurrentCultureIgnoreCase));
-
-            var doesProductWithSameBarcodeExist = _context.Products.Any(product =>
-                String.Equals(product.Barcode, productToAdd.Barcode));
-
-            if (doesProductWithSameNameExist || productToAdd.Name.Length < 3 || productToAdd.AvailableQuantity < 1 || doesProductWithSameBarcodeExist || productToAdd.Barcode.Length != 13 || productToAdd.Price <= 0.0 || productToAdd.AvailableQuantity < 1)
+            if (!IsProductToAddValid(productToAdd))
                 return false;
 
             _context.Products.Add(productToAdd);
             _context.SaveChanges();
-
             return true;
         }
-
-        public bool EditProduct(Product editedProduct)
-        {
-            var doesProductWithSameBarcodeExist = _context.Products.Any(product =>
-                Equals(product.Barcode, editedProduct.Barcode) && editedProduct.Id != product.Id);
-
-            if (editedProduct.Barcode.Length != 13 && doesProductWithSameBarcodeExist || editedProduct.AvailableQuantity < 1)
-                return false;
-
-            var productToEdit = _context.Products.Find(editedProduct.Id);
-            if (productToEdit == null)
-                return false;
-
-            productToEdit.Price = editedProduct.Price;
-            productToEdit.TaxType = editedProduct.TaxType;
-            productToEdit.Barcode = editedProduct.Barcode;
-
-            _context.SaveChanges();
-
-            return true;
-        }
-
         public Product GetProductById(int id)
         {
-            var productWithThatId = _context.Products.Find(id);
-            return productWithThatId;
+            return _context.Products.Find(id);
         }
-
+        public List<Product> GetAllProducts()
+        {
+            return _context.Products.ToList();
+        }
         public List<Product> GetSearchedProducts(string search)
         {
-            if(IsNullOrEmpty(search))
+            if (!IsSearchValid(search))
                 return new List<Product>();
 
             return _context.Products.Where(product =>
-                product.Name
-                    .Contains(search, StringComparison.OrdinalIgnoreCase) || product.Barcode.Contains(search))
+                    product.Name.Contains(search, StringComparison.OrdinalIgnoreCase) || 
+                    product.Barcode.Contains(search))
                 .ToList();
         }
+        public bool EditProduct(Product editedProduct)
+        {
 
+            if (!IsEditedProductValid(editedProduct))
+                return false;
+
+            var productToEdit = GetProductById(editedProduct.Id);
+            if (productToEdit == null)
+                return false;
+
+            productToEdit.Barcode = editedProduct.Barcode;
+            productToEdit.Price = editedProduct.Price;
+            productToEdit.TaxType = editedProduct.TaxType;
+
+            _context.SaveChanges();
+            return true;
+        }
         public bool IncreaseProductAvailableQuantity(Product editedProduct)
         {
             if (editedProduct.AvailableQuantity < 1)
                 return false;
 
-            var productToEdit = _context.Products.Find(editedProduct.Id);
+            var productToEdit = GetProductById(editedProduct.Id);
             if (productToEdit == null)
                 return false;
 
             productToEdit.AvailableQuantity = editedProduct.AvailableQuantity;
-
             _context.SaveChanges();
             return true;
         }
-
         public List<string> GetProductTaxTypeEnumValues()
         {
             return Enum.GetNames(typeof(TaxType)).ToList();
+        }
+        private bool IsProductToAddValid(Product productToAdd)
+        {
+            return !DoesProductWithSameNameExist(productToAdd) && 
+                   IsProductNameValid(productToAdd) &&
+                   !DoesProductWithSameBarcodeExist(productToAdd) &&
+                   IsProductBarcodeValid(productToAdd) &&
+                   productToAdd.Price > 0 &&
+                   productToAdd.AvailableQuantity >= 1;
+        }
+        private bool IsEditedProductValid(Product editedProduct)
+        {
+            return !DoesProductWithSameBarcodeExist(editedProduct) &&
+                   IsProductBarcodeValid(editedProduct) &&
+                   editedProduct.Price > 0;
+        }
+        private bool DoesProductWithSameNameExist(Product product)
+        {
+            return _context.Products.Any(p =>
+                string.Equals(p.Name, product.Name, StringComparison.CurrentCultureIgnoreCase));
+        }
+        private bool DoesProductWithSameBarcodeExist(Product product)
+        {
+            return _context.Products.Any(p =>
+                Equals(p.Barcode, product.Barcode) && p.Id != product.Id);
+        }
+        private static bool IsProductBarcodeValid(Product product)
+        {
+            return product.Barcode.All(char.IsDigit) && product.Barcode.Length == 13;
+        }
+        private static bool IsProductNameValid(Product product)
+        {
+            return !IsNullOrEmpty(product.Name) && product.Name.Length >= 3;
+        }
+        private static bool IsSearchValid(string search)
+        {
+            return !IsNullOrEmpty(search) && search.Length >= 3;
         }
     }
 }
