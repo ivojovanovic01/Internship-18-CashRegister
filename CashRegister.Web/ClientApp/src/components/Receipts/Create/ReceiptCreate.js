@@ -106,10 +106,10 @@ class ReceiptCreate extends Component {
         />
         {products.length >= 1 && (
           <div>
-            Total: {receipt.totalPrice}kn
-            <p>{receipt.taxFreePrice}</p>
-            <p>{receipt.totalExciseTax}</p>
-            <p>{receipt.totalDirectTax}</p>
+            <p>Total price: {receipt.totalPrice}kn</p>
+            <p>Price without tax: {receipt.taxFreePrice}kn</p>
+            <p>Total excise tax: {receipt.totalExciseTax}kn</p>
+            <p>Total direct tax: {receipt.totalDirectTax}kn</p>
           </div>
         )}
       </div>

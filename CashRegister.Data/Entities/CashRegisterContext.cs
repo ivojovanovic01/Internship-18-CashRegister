@@ -7,7 +7,6 @@ namespace CashRegister.Data.Entities
     {
         public CashRegisterContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public DbSet<Cashier> Cashiers { get; set; }
@@ -20,7 +19,7 @@ namespace CashRegister.Data.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CashRegisterCashier>()
-                .HasKey(cs => new { cs.CashRegisterId, cs.CashierId });
+                .HasKey(cs => new {cs.CashRegisterId, cs.CashierId});
 
             modelBuilder.Entity<CashRegisterCashier>()
                 .HasOne(crs => crs.CashRegister)
@@ -33,7 +32,7 @@ namespace CashRegister.Data.Entities
                 .HasForeignKey(crs => crs.CashierId);
 
             modelBuilder.Entity<ReceiptProduct>()
-                .HasKey(rp => new { rp.ReceiptId, rp.ProductId });
+                .HasKey(rp => new {rp.ReceiptId, rp.ProductId});
 
             modelBuilder.Entity<ReceiptProduct>()
                 .HasOne(rp => rp.Receipt)
@@ -44,6 +43,8 @@ namespace CashRegister.Data.Entities
                 .HasOne(rp => rp.Product)
                 .WithMany(p => p.ReceiptProducts)
                 .HasForeignKey(rp => rp.ProductId);
+
+            // database seed data is in migration
         }
     }
 }

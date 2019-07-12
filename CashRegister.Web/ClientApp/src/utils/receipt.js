@@ -39,7 +39,7 @@ export const getTotalExciseTax = products => {
       totalExciseTax +=
         (product.price - product.price / 1.05) * product.quantity;
   });
-  return totalExciseTax;
+  return roundOnTwoDecimalPlaces(totalExciseTax);
 };
 
 export const getTotalDirectTax = products => {
@@ -49,7 +49,7 @@ export const getTotalDirectTax = products => {
       totalDirectTax +=
         (product.price - product.price / 1.25) * product.quantity;
   });
-  return totalDirectTax.toFixed(2);
+  return roundOnTwoDecimalPlaces(totalDirectTax);
 };
 
 export const getTotalPrice = products => {
@@ -57,7 +57,7 @@ export const getTotalPrice = products => {
   products.forEach(product => {
     totalPrice += product.price * product.quantity;
   });
-  return totalPrice.toFixed(2);
+  return roundOnTwoDecimalPlaces(totalPrice);
 };
 
 export const getTaxFreePrice = products => {
@@ -67,5 +67,7 @@ export const getTaxFreePrice = products => {
       ? (taxFreePrice += (product.price / 1.05) * product.quantity)
       : (taxFreePrice += (product.price / 1.25) * product.quantity);
   });
-  return taxFreePrice.toFixed(2);
+  return roundOnTwoDecimalPlaces(taxFreePrice);
 };
+
+const roundOnTwoDecimalPlaces = number => Math.round(number * 100) / 100;

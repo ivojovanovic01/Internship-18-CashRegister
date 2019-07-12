@@ -23,7 +23,7 @@ class ReceiptCard extends Component {
       <div className="recepit-card">
         <h1>{receipt.id}</h1>
         <h2>{formatCreatedTime(receipt.createdTime)}</h2>
-        <p>Total price: {receipt.taxFreePrice}</p>
+        <p>Total price: {receipt.totalPrice}</p>
         <div className="show-more-receipt" onClick={this.togglePopup}>
           Show more
         </div>

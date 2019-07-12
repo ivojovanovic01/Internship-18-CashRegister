@@ -4,14 +4,16 @@ using CashRegister.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CashRegister.Data.Migrations
 {
     [DbContext(typeof(CashRegisterContext))]
-    partial class CashRegisterContextModelSnapshot : ModelSnapshot
+    [Migration("20190712142417_AddedCashierToCashRegisterCashier")]
+    partial class AddedCashierToCashRegisterCashier
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,9 +273,9 @@ namespace CashRegister.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CashRegisterId");
+                    b.Property<int>("CashRegisterId");
 
-                    b.Property<int?>("CashierId");
+                    b.Property<int>("CashierId");
 
                     b.Property<DateTime>("CreatedTime");
 
@@ -292,17 +294,6 @@ namespace CashRegister.Data.Migrations
                     b.HasIndex("CashierId");
 
                     b.ToTable("Receipts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("cbd8f8ef-464d-4697-9c74-1ddc09bd1ddb"),
-                            CreatedTime = new DateTime(2019, 7, 12, 18, 15, 31, 494, DateTimeKind.Local).AddTicks(377),
-                            TaxFreePrice = 100.0,
-                            TotalDirectTax = 12.0,
-                            TotalExciseTax = 12.0,
-                            TotalPrice = 12.0
-                        });
                 });
 
             modelBuilder.Entity("CashRegister.Data.Entities.Models.ReceiptProduct", b =>
@@ -322,16 +313,6 @@ namespace CashRegister.Data.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ReceiptProducts");
-
-                    b.HasData(
-                        new
-                        {
-                            ReceiptId = new Guid("cbd8f8ef-464d-4697-9c74-1ddc09bd1ddb"),
-                            ProductId = 1,
-                            ProductQuantity = 10,
-                            ProductTaxType = 1,
-                            ProductUnitPrice = 10.0
-                        });
                 });
 
             modelBuilder.Entity("CashRegister.Data.Entities.Models.CashRegisterCashier", b =>
@@ -351,11 +332,13 @@ namespace CashRegister.Data.Migrations
                 {
                     b.HasOne("CashRegister.Data.Entities.Models.CashRegister", "CashRegister")
                         .WithMany("Receipts")
-                        .HasForeignKey("CashRegisterId");
+                        .HasForeignKey("CashRegisterId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("CashRegister.Data.Entities.Models.Cashier", "Cashier")
                         .WithMany("Receipts")
-                        .HasForeignKey("CashierId");
+                        .HasForeignKey("CashierId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("CashRegister.Data.Entities.Models.ReceiptProduct", b =>
