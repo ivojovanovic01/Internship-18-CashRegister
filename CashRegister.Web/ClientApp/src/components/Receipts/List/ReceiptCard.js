@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Redirect, Link } from "react-router-dom";
 import ReceiptDetailsPopup from "./ReceiptDetailsPopup";
-import { getReceipts } from "./../../utils/receipt";
+import { formatCreatedTime } from "../../../utils/receipt";
 
 class ReceiptCard extends Component {
   constructor(props) {
@@ -12,24 +11,27 @@ class ReceiptCard extends Component {
   }
 
   togglePopup = () => {
-    this.setState({
-      showPopup: !this.state.showPopup
-    });
+    this.setState(state => ({
+      showPopup: !state.showPopup
+    }));
   };
-
 
   render() {
     const { receipt } = this.props;
-    if (false) return <Redirect to="/" />;
+    const { showPopup } = this.state;
     return (
       <div className="recepit-card">
         <h1>{receipt.id}</h1>
-        <h2>{receipt.createdTime}</h2>
+        <h2>{formatCreatedTime(receipt.createdTime)}</h2>
         <p>Total price: {receipt.taxFreePrice}</p>
-        <div onClick={this.togglePopup}>Show more</div>
-        {
-            this.state.showPopup && <ReceiptDetailsPopup receiptId={receipt.id} closePopup={this.togglePopup}/>
-        }
+        <div className="show-more-receipt" onClick={this.togglePopup}>
+          Show more
+        </div>
+        <ReceiptDetailsPopup
+          receiptId={receipt.id}
+          showPopup={showPopup}
+          closePopup={this.togglePopup}
+        />
       </div>
     );
   }

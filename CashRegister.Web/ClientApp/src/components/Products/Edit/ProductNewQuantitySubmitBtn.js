@@ -1,17 +1,16 @@
 import React from "react";
 import { isQuantityValid } from "./../../../utils/product";
+import { isQuantitySufficient } from "../../../utils/receipt";
 
 const ProductNewQuantitySubmitBtn = props => {
-  const { newQuantity, increaseAvailableQuantity } = props;
-  const btnClassName = isQuantityValid(newQuantity)
-    ? "new-quantity-valid-submit"
-    : "new-quantity-non-valid-submit";
+  const { newQuantity, handleClick, maxQuantity } = props;
+  const btnClassName =
+    (isQuantityValid(newQuantity) && isQuantitySufficient(maxQuantity, newQuantity))
+      ? "new-quantity-valid-submit"
+      : "new-quantity-non-valid-submit";
 
   return (
-    <div
-      className={btnClassName}
-      onClick={() => increaseAvailableQuantity(newQuantity)}
-    >
+    <div className={btnClassName} onClick={() => handleClick(newQuantity)}>
       add quantity
     </div>
   );

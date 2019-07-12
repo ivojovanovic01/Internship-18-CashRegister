@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import ReceiptsList from "./ReceiptsList";
-import ReceiptCreate from "./ReceiptCreate";
+import ReceiptsList from "./List/ReceiptsList";
+import ReceiptCreate from "./Create/ReceiptCreate";
 import "./index.css";
 
 const Receipts = () => {

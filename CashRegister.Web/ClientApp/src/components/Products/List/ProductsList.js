@@ -28,7 +28,7 @@ class ProductsList extends Component {
     () =>
       getSearchedProducts(this.state.search)
         .then(data => this.setState({ products: data, isSearched: true }))
-        .catch(err => alert("I can not find products")),
+        .catch(() => alert("I can not find products")),
     1000
   );
 

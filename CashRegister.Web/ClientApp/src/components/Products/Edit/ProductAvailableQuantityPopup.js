@@ -48,8 +48,10 @@ class ProductAvailableQuantityPopup extends Component {
   };
 
   render() {
+    const { product, closePopup, showPopup } = this.props;
+    if(!showPopup) return null;
+
     const { newQuantity } = this.state;
-    const { product, closePopup } = this.props;
     return (
       <div className="new-quantity-popup">
         <div className="new-quantity-popup_inner">
@@ -61,10 +63,12 @@ class ProductAvailableQuantityPopup extends Component {
           <ProductNewQuantityInput
             newQuantity={newQuantity}
             handleChange={this.handleChange}
+            maxQuantity={9999999999}
           />
           <ProductNewQuantitySubmitBtn
             newQuantity={newQuantity}
-            increaseAvailableQuantity={this.increaseAvailableQuantity}
+            handleClick={this.increaseAvailableQuantity}
+            maxQuantity={9999999999}
           />
         </div>
       </div>

@@ -27,13 +27,12 @@ class ProductCard extends Component {
           productId={product.id}
           togglePopup={this.togglePopup}
         />
-        {showPopup && (
-          <ProductAvailableQuantityPopup
-            product={product}
-            closePopup={this.togglePopup}
-            changeProductInState={changeProductInState}
-          />
-        )}
+        <ProductAvailableQuantityPopup
+          product={product}
+          showPopup={showPopup}
+          closePopup={this.togglePopup}
+          changeProductInState={changeProductInState}
+        />
       </div>
     );
   }
