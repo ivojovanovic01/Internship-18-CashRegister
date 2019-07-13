@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getReceipts } from "../../../utils/receipt";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { debounce } from "lodash";
 import DatePicker from "react-date-picker";
 import ReceiptCards from "./ReceiptCards";
 import ReceiptMessage from "./ReceiptMessage";
@@ -17,10 +18,6 @@ class ReceiptsList extends Component {
   }
 
   componentDidMount() {
-    localStorage.setItem(
-      "account",
-      JSON.stringify({ cashierId: 1, cashRegisterId: 1 })
-    ); //triba maknit kad bude login sustav
     this.getAndSetReceipts();
   }
 
@@ -55,8 +52,15 @@ class ReceiptsList extends Component {
       .catch(() => alert("I can not find receipts"));
   };
 
+  debouncedFiltered = debounce(
+    () =>
+      this.handleClickDateFilter(),
+    500
+  );
+
   render() {
     const { receipts, isLoading, filterDate } = this.state;
+
     return (
       <div className="receipts">
         <h1>Receipts</h1>
@@ -65,10 +69,9 @@ class ReceiptsList extends Component {
           format="dd/MM/yyyy"
           value={filterDate}
         />
-        <div className="date-filter-btn" onClick={this.handleClickDateFilter}>
+        <div className="date-filter-btn" onClick={this.debouncedFiltered}>
           filter
         </div>
-
         <InfiniteScroll
           dataLength={receipts.length}
           next={this.loadFunc}
@@ -76,7 +79,6 @@ class ReceiptsList extends Component {
         >
           <ReceiptCards receipts={receipts} />
         </InfiniteScroll>
-
         <ReceiptMessage
           isLoading={isLoading}
           receiptsLength={receipts.length}

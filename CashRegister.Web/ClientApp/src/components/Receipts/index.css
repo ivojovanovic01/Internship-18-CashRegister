@@ -3,7 +3,8 @@
   background-color: #e0e0e0;
 }
 
-.receipt-deatils-popup, .product-add-popup {
+.receipt-deatils-popup,
+.product-add-popup {
   position: fixed;
   width: 100%;
   height: 100%;
@@ -17,6 +18,7 @@
 }
 .receipt-deatils-popup_inner {
   position: absolute;
+  padding: 10px;
   left: 25%;
   right: 25%;
   top: 25%;
@@ -24,6 +26,7 @@
   margin: auto;
   background: white;
   z-index: 10;
+  overflow: auto;
 }
 
 .product-add-popup_inner {
@@ -38,11 +41,9 @@
   overflow: auto;
 }
 
-.receipt-deatils-popup_inner p,
-.receipt-deatils-popup_inner h1{
-text-align: center;
+.receipt-deatils-popup_inner h1 {
+  text-align: center;
 }
-
 
 .date-filter-btn {
   display: inline-block;
@@ -63,10 +64,9 @@ text-align: center;
   margin-top: 10%;
 }
 
-
 .show-more-receipt {
   position: absolute;
-  top: 40%;
+  top: 35%;
   right: 2%;
   display: inline-block;
   color: white;
@@ -106,5 +106,55 @@ text-align: center;
 }
 
 .receipt-create .close-popup:hover {
+  color: orange;
+}
+
+.receipt-product-details div {
+  display: inline-block;
+  padding: 10px 0;
+}
+
+.receipt-product-details .product-name {
+  width: 50%;
+}
+
+.receipt-product-details .product-quantity {
+  width: 10%;
+}
+
+.receipt-product-details .product-unit-price,
+.receipt-product-details .product-price {
+  width: 20%;
+}
+
+.product-card .qunatity {
+  position: absolute;
+  color: #4caf50;
+  font-weight: 900;
+  font-size: 30px;
+  height: 20px;
+  width: 20px;
+  right: 5%;
+  top: 25%;
+  text-align: center;
+  cursor: default;
+}
+
+.delete-product {
+  position: absolute;
+  color: red;
+  font-size: 30px;
+  right: 20px;
+  top: 10%;
+  text-align: center;
+  cursor: pointer;
+  transition: all 200ms;
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.delete-product:hover {
   color: orange;
 }

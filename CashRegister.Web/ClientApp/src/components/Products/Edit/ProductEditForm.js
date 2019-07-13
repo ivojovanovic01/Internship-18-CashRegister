@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { getProductTaxTypeEnumValues, isEditedProductNonValid } from "./../../../utils/product";
+import {
+  getProductTaxTypeEnumValues,
+  isEditedProductNonValid
+} from "./../../../utils/product";
 import ProductBarcode from "./../Form/ProductBarcode";
 import ProductPrice from "./../Form/ProductPrice";
 import ProductTaxType from "./../Form/ProductTaxType";
@@ -44,7 +47,11 @@ class ProductEditForm extends Component {
           taxTypes={taxTypes}
           handleChange={handleChange}
         />
-        <ProductSubmitBtn product={product} handleClick={handleClick} isProductNonValid={isEditedProductNonValid} />
+        <ProductSubmitBtn
+          product={product}
+          handleClick={handleClick}
+          isProductNonValid={isEditedProductNonValid}
+        />
       </div>
     );
   }

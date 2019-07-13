@@ -6,10 +6,6 @@ namespace CashRegister.Data.Entities.Models
 {
     public class ReceiptProduct
     {
-        public ReceiptProduct()
-        {
-        }
-
         public ReceiptProduct(Guid receiptId, int productId, int productQuantity, double productUnitPrice, TaxType productTaxType)
         {
             ReceiptId = receiptId;

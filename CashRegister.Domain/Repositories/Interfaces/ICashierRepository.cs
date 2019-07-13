@@ -1,11 +1,10 @@
-﻿using CashRegister.Data.Entities.Models;
+﻿using CashRegister.Data.DTOs;
 
 namespace CashRegister.Domain.Repositories.Interfaces
 {
     public interface ICashierRepository
     {
-        Cashier GetCashierById(int id);
-
-        Cashier GetCashierByUsernameAndPassword(string username, string password);
+        GetCashierDto GetCashierById(int id);
+        GetCashierDto GetCashierByUsernameAndPassword(string username, string password);
     }
 }

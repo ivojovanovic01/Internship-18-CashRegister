@@ -1,0 +1,26 @@
+.home a {
+  width: 40%;
+  padding: 20px;
+  margin: 30px;
+  text-align: center;
+  color: white;
+}
+.product-btn {
+  background: #2ecc71;
+}
+
+.all-receipts-btn {
+  background: #3498db;
+}
+
+.create-receipt-btn {
+  background: #d35400;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+}

@@ -41,7 +41,6 @@ class ProductCard extends Component {
     const { showQuantityPopup, isChecked } = this.state;
     const {
       product,
-      changeProductInState,
       isDisabled,
       addProductOnReceipt
     } = this.props;
@@ -52,7 +51,7 @@ class ProductCard extends Component {
           type="checkbox"
           name="selectedProduct"
           checked={isChecked}
-          onChange={this.handleChange}
+          onChange={() => this.handleChange}
           disabled={isDisabled}
         />
         {showQuantityPopup && isChecked && (

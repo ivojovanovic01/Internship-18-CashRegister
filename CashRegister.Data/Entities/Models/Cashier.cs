@@ -5,17 +5,6 @@ namespace CashRegister.Data.Entities.Models
 {
     public class Cashier
     {
-        public Cashier()
-        {
-        }
-        public Cashier(int id, string firstName, string lastName, string username, string password)
-        {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Username = username;
-            Password = password;
-        }
         public int Id { get; set; }
 
         [StringLength(20, MinimumLength = 3)]

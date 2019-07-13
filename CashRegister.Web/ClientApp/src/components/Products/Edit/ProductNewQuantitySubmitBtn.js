@@ -5,7 +5,8 @@ import { isQuantitySufficient } from "../../../utils/receipt";
 const ProductNewQuantitySubmitBtn = props => {
   const { newQuantity, handleClick, maxQuantity } = props;
   const btnClassName =
-    (isQuantityValid(newQuantity) && isQuantitySufficient(maxQuantity, newQuantity))
+    isQuantityValid(newQuantity) &&
+    isQuantitySufficient(maxQuantity, newQuantity)
       ? "new-quantity-valid-submit"
       : "new-quantity-non-valid-submit";
 

@@ -1,22 +1,33 @@
 import React from "react";
-import { formatCreatedTime } from "../../../utils/receipt";
+import {
+  formatCreatedTime,
+  receiptCashierFullName,
+  receiptSameProductsPrice
+} from "../../../utils/receipt";
 
 const ReceiptDetails = ({ receipt }) => {
   return (
-    <div className="receipt-details">
-      <h1>{receipt.id}</h1>
-      <p>Created time: {formatCreatedTime(receipt.createdTime)}</p>
+    <React.Fragment>
+      <h1>Receipt</h1>
+      <hr />
+      <p>Cashier: {receiptCashierFullName(receipt.cashier)}</p>
+      <hr />
       {receipt.receiptProducts.length > 0 &&
         receipt.receiptProducts.map(rp => (
-          <p key={rp.productId}>
-            {rp.product.name} {rp.productQuantity}
-          </p>
+          <div key={rp.productId} className="receipt-product-details">
+            <div className="product-name">{rp.product.name.toUpperCase()}</div>
+            <div className="product-quantity">{rp.productQuantity}</div>
+            <div className="product-unit-price">{rp.productUnitPrice}</div>
+            <div className="product-price">{receiptSameProductsPrice(rp)}</div>
+          </div>
         ))}
-      <p>Price without tax: {receipt.taxFreePrice}</p>
-      <p>Total excise tax: {receipt.totalExciseTax}</p>
-      <p>Total direct tax: {receipt.totalDirectTax}</p>
-      <p>Total price: {receipt.totalPrice}</p>
-    </div>
+      <h2>Total price: {receipt.totalPrice} kn</h2>
+      <p>Total excise tax (5%): {receipt.totalExciseTax} kn</p>
+      <p>Total direct tax (25%): {receipt.totalDirectTax} kn</p>
+      <p>Price without tax: {receipt.taxFreePrice} kn</p>
+      <p>Receipt id: {receipt.id}</p>
+      <p>Created time: {formatCreatedTime(receipt.createdTime)}</p>
+    </React.Fragment>
   );
 };
 

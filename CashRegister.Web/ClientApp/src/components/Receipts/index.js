@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ReceiptsList from "./List/ReceiptsList";
 import ReceiptCreate from "./Create/ReceiptCreate";
 import "./index.css";
@@ -17,6 +17,7 @@ const Receipts = () => {
         path="/receipts/create"
         render={props => <ReceiptCreate {...props} />}
       />
+      <Redirect to="/home" />
     </Switch>
   );
 };

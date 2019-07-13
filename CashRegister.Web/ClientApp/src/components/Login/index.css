@@ -1,0 +1,39 @@
+.login-form {
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 25%;
+    margin: auto;
+    background-color: #ffbe76;    
+    text-align: center
+}
+.login-btn, .cash-register-btn {
+  display: inline-block;
+  position: relative;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  border-radius: 2px;
+  cursor: pointer;
+  margin: 30px;
+  width: 50%;
+  background-color: #4caf50;
+}
+.cash-register-btn {
+  margin: 3% 25%;
+}
+
+.login-form input[type="text"], .login-form input[type="password"] {
+    width: 50%;
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+
+.new-quantity-popup_inner {
+    
+    z-index: 10;
+  }

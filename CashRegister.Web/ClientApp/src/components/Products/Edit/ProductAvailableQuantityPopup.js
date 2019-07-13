@@ -49,7 +49,7 @@ class ProductAvailableQuantityPopup extends Component {
 
   render() {
     const { product, closePopup, showPopup } = this.props;
-    if(!showPopup) return null;
+    if (!showPopup) return null;
 
     const { newQuantity } = this.state;
     return (

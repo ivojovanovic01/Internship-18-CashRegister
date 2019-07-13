@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CashRegister.Data.Entities.Models;
-using CashRegister.Domain.Repositories.Implementations;
+using CashRegister.Data.DTOs;
 using CashRegister.Domain.Repositories.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CashRegister.Web.Controllers
@@ -20,21 +15,8 @@ namespace CashRegister.Web.Controllers
         }
         private readonly IReceiptRepository _receiptRepository;
 
-        [HttpGet("all")]
-        public IActionResult GetAllReceipts()
-        {
-            return Ok(_receiptRepository.GetAllReceipts());
-        }
-
-        [HttpGet("filtered")]
-        public IActionResult GetReceipts(int cashierId, int cashRegisterId, int pageNumber, DateTime? filterDate)
-        {
-            return Ok(_receiptRepository.GetReceipts(cashierId, cashRegisterId, pageNumber, filterDate));
-        }
-
-
         [HttpPost("add")]
-        public IActionResult AddReceipt(ReceiptRepository.AddReceiptDto addReceiptDto)
+        public IActionResult AddReceipt(AddReceiptDto addReceiptDto)
         {
             var createdReceiptId = _receiptRepository.AddReceipt(addReceiptDto);
 
@@ -50,6 +32,12 @@ namespace CashRegister.Web.Controllers
             if (receipt != null)
                 return Ok(receipt);
             return NotFound();
+        }
+
+        [HttpGet("filtered")]
+        public IActionResult GetReceipts(int cashRegisterId, int pageNumber, DateTime? filterDate)
+        {
+            return Ok(_receiptRepository.GetReceipts(cashRegisterId, pageNumber, filterDate));
         }
     }
 }

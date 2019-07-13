@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import ProductsList from "./List/ProductsList";
 import ProductCreate from "./Create/ProductCreate";
 import ProductEdit from "./Edit/ProductEdit";
@@ -23,6 +23,7 @@ const Products = () => {
         path="/products/edit/:id"
         render={props => <ProductEdit {...props} />}
       />
+      <Redirect to="/home" />
     </Switch>
   );
 };

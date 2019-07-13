@@ -58,25 +58,10 @@
   background-color: #008cba;
 }
 
-
-
-
-
-
-
-
-
-
 a {
   text-decoration: none;
   color: black;
 }
-
-
-
-
-
-
 
 .product {
   background-color: gray;
@@ -87,16 +72,6 @@ a {
   display: inline-block;
   width: 19%;
 }
-
-
-
-
-
-
-
-
-
-
 
 .new-quantity-popup {
   position: fixed;
@@ -114,7 +89,7 @@ a {
   position: absolute;
   left: 30%;
   right: 30%;
-  top: 25%;
+  top: 20%;
   margin: auto;
   background: white;
   z-index: 10;
@@ -157,7 +132,8 @@ a {
   resize: vertical;
 }
 
-.new-quantity-valid-submit, .new-quantity-non-valid-submit {
+.new-quantity-valid-submit,
+.new-quantity-non-valid-submit {
   border: none;
   padding: 15px 0px;
   width: 100%;
@@ -183,15 +159,6 @@ a {
   text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
 .popup {
   position: fixed;
   width: 100%;
@@ -209,26 +176,33 @@ a {
   left: 25%;
   right: 25%;
   top: 25%;
-  bottom: 25%;
+  height: auto;
   margin: auto;
   background: white;
   z-index: 10;
 }
 
-.create-product-form, .edit-product-form {
+.create-product-form,
+.edit-product-form {
   background-color: #ffdc00;
   width: 400px;
   height: auto;
   margin: 0 auto;
 }
 
-.create-product-form p, .edit-product-form p {
+.create-product h1 {
+  text-align: center;
+}
+
+.create-product-form p,
+.edit-product-form p {
   text-align: center;
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-.create-product-form input[type="text"], .edit-product-form input[type="text"] {
+.create-product-form input[type="text"],
+.edit-product-form input[type="text"] {
   width: 100%;
   text-align: center;
   padding: 12px;
@@ -238,7 +212,8 @@ a {
   resize: vertical;
 }
 
-.create-product-form select, .edit-product-form select {
+.create-product-form select,
+.edit-product-form select {
   display: block;
   margin: auto;
   width: 30%;
@@ -275,4 +250,8 @@ a {
 .edit-product-form h1 {
   text-align: center;
   padding: 30px;
+}
+
+.edit-product h1 {
+  text-align: center;
 }

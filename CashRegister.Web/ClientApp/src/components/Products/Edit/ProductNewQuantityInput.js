@@ -1,6 +1,10 @@
 import React from "react";
 
-const ProductNewQuantityInput = ({newQuantity, handleChange, maxQuantity}) => {
+const ProductNewQuantityInput = ({
+  newQuantity,
+  handleChange,
+  maxQuantity
+}) => {
   return (
     <React.Fragment>
       <input

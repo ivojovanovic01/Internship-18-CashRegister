@@ -40,8 +40,9 @@ class ProductQuantity extends Component {
   };
 
   render() {
-    const { product, addProductOnReceipt, handleClickClosePopup } = this.props;
+    const { product, handleClickClosePopup } = this.props;
     const { quantity } = this.state;
+    
     return (
       <div className="popup">
         <div className="popup_inner">

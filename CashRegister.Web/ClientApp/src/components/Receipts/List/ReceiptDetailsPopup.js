@@ -14,7 +14,7 @@ class ReceiptDetailsPopup extends Component {
     const { receiptId } = this.props;
     getReceipt(receiptId)
       .then(receipt => this.setState({ receipt }))
-      .catch(err => alert("I can not find that receipt"));
+      .catch(() => alert("I can not find that receipt"));
   }
 
   render() {

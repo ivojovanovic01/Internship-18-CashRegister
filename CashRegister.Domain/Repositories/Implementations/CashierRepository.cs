@@ -1,6 +1,6 @@
 ﻿using System.Linq;
+using CashRegister.Data.DTOs;
 using CashRegister.Data.Entities;
-using CashRegister.Data.Entities.Models;
 using CashRegister.Domain.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,21 +13,25 @@ namespace CashRegister.Domain.Repositories.Implementations
             _context = context;
         }
         private readonly CashRegisterContext _context;
-
-        public Cashier GetCashierById(int id)
+        public GetCashierDto GetCashierById(int id)
         {
-            var cashierWithThatId = _context.Cashiers.Include(c => c.CashRegisterCashiers).ThenInclude(c => c.CashRegister).FirstOrDefault(c => c.Id == id);
-            return cashierWithThatId;
-        }
-
-        public Cashier GetCashierByUsernameAndPassword(string username, string password)
-        {
-            var cashierWithThatUsernameAndPassword = 
-                _context.Cashiers.Include(c => c.CashRegisterCashiers)
+            var cashierWithThatId = _context
+                .Cashiers
+                .Include(c => c.CashRegisterCashiers)
                 .ThenInclude(c => c.CashRegister)
-                .FirstOrDefault(c => c.Username == username && c.Password == password);
+                .FirstOrDefault(c => c.Id == id);
 
-            return cashierWithThatUsernameAndPassword;
+            return cashierWithThatId == null ? null : new GetCashierDto(cashierWithThatId);
+        }
+        public GetCashierDto GetCashierByUsernameAndPassword(string username, string password)
+        {
+            var cashierWithThatUsernameAndPassword = _context
+                    .Cashiers
+                    .Include(c => c.CashRegisterCashiers)
+                    .ThenInclude(c => c.CashRegister)
+                    .FirstOrDefault(c => username == c.Username && password == c.Password);
+
+            return cashierWithThatUsernameAndPassword == null ? null : new GetCashierDto(cashierWithThatUsernameAndPassword);
         }
     }
 }

@@ -6,19 +6,6 @@ namespace CashRegister.Data.Entities.Models
 {
     public class Product
     {
-        public Product()
-        {
-
-        }
-        public Product(int id, string barcode, string name, double price, int availableQuantity, TaxType taxType)
-        {
-            Id = id;
-            Barcode = barcode;
-            Name = name;
-            Price = price;
-            AvailableQuantity = availableQuantity;
-            TaxType = taxType;
-        }
         public int Id { get; set; }
 
         [StringLength(13, MinimumLength = 13)]

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { getCashierByUsernameAndPassword } from "./../../utils/login";
+import "./index.css";
 
 class LoginForm extends Component {
   constructor(props) {
@@ -18,15 +19,12 @@ class LoginForm extends Component {
   };
 
   handleSubmit = () => {
-    axios
-      .get("/api/cashiers/get-by-username-and-password", {
-        params: {
-          username: this.state.username,
-          password: this.state.password
-        }
-      })
-      .then(response => this.props.handleLogin(response))
-      .catch(err => alert("I can not find a cashier"));
+    const { username, password } = this.state;
+    const { handleLogin } = this.props;
+
+    getCashierByUsernameAndPassword(username, password)
+      .then(cashier => handleLogin(cashier))
+      .catch(() => alert("I can not find a cashier"));
   };
 
   render() {
@@ -37,28 +35,29 @@ class LoginForm extends Component {
       <div className="login-form">
         <h1>Login In Cashier Account</h1>
         <div className="cashierUsername">
-          <label>Username:</label>
+          <p>Username:</p>
           <input
+            type="text"
             name="username"
+            maxLength="20"
             onChange={this.handleChange}
             value={username}
           />
         </div>
 
         <div className="cashierPassword">
-          <label>Password:</label>
+          <p>Password:</p>
           <input
             name="password"
             type="password"
+            maxLength="20"
             onChange={this.handleChange}
             value={password}
           />
         </div>
 
-        <div className="loginCashier">
-          <button type="submit" onClick={this.handleSubmit}>
-            Login
-          </button>
+        <div className="login-btn" onClick={this.handleSubmit}>
+          Login
         </div>
       </div>
     );
