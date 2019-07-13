@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CashRegister.Data.Entities.Models;
+using CashRegister.Domain.Repositories.Implementations;
 using CashRegister.Domain.Repositories.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,12 +34,12 @@ namespace CashRegister.Web.Controllers
 
 
         [HttpPost("add")]
-        public IActionResult AddReceipt(Receipt receiptToAdd)
+        public IActionResult AddReceipt(ReceiptRepository.AddReceiptDto addReceiptDto)
         {
-            var wasAddSuccessful = _receiptRepository.AddReceipt(receiptToAdd);
+            var createdReceiptId = _receiptRepository.AddReceipt(addReceiptDto);
 
-            if (wasAddSuccessful)
-                return Ok();
+            if (createdReceiptId != Guid.Empty)
+                return Ok(createdReceiptId);
             return Forbid();
         }
 

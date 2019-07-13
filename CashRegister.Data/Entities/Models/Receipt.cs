@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace CashRegister.Data.Entities.Models
 {
@@ -12,7 +10,7 @@ namespace CashRegister.Data.Entities.Models
         {
         }
 
-        public Receipt(DateTime createdTime, double taxFreePrice, double totalExciseTax, double totalDirectTax, double totalPrice)
+        public Receipt(DateTime createdTime, double taxFreePrice, double totalExciseTax, double totalDirectTax, double totalPrice, CashRegister cashRegister, Cashier cashier)
         {
             Id = Guid.NewGuid();
             CreatedTime = createdTime;
@@ -20,6 +18,8 @@ namespace CashRegister.Data.Entities.Models
             TotalExciseTax = totalExciseTax;
             TotalDirectTax = totalDirectTax;
             TotalPrice = totalPrice;
+            CashRegister = cashRegister;
+            Cashier = cashier;
         }
         public Guid Id { get; set; }
 

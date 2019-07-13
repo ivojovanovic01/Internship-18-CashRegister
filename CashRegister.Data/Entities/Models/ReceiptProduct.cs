@@ -10,8 +10,10 @@ namespace CashRegister.Data.Entities.Models
         {
         }
 
-        public ReceiptProduct(int productQuantity, double productUnitPrice, TaxType productTaxType)
+        public ReceiptProduct(Guid receiptId, int productId, int productQuantity, double productUnitPrice, TaxType productTaxType)
         {
+            ReceiptId = receiptId;
+            ProductId = productId;
             ProductQuantity = productQuantity;
             ProductUnitPrice = productUnitPrice;
             ProductTaxType = productTaxType;

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import ProductDetails from "../../Products/List/ProductDetails";
 import ProductAddPopup from "./Popup/ProductAddPopup";
-import { isProductNonValid } from "./../../../utils/product";
+import { createReceipt, getReceipt } from "./../../../utils/receipt";
+import { Printd } from "printd";
+import Receipt from "./../Deatils/Receipt";
 import {
   isQuantitySufficient,
   getTaxFreePrice,
@@ -18,7 +20,6 @@ class ReceiptCreate extends Component {
       showPopup: false,
       receipt: {
         products: [],
-        createdTime: null,
         taxFreePrice: 0,
         totalExciseTax: 0,
         totalDirectTax: 0,
@@ -59,17 +60,19 @@ class ReceiptCreate extends Component {
 
   createReceipt = () => {
     const { receipt } = this.state;
-    const { products } = this.state.receipt;
-    this.setState({
-      receipt: {
-        ...receipt,
-        createdTime: Date.now,
-        taxFreePrice: getTaxFreePrice(products),
-        totalExciseTax: getTotalExciseTax(products),
-        totalDirectTax: getTotalDirectTax(products),
-        totalPrice: getTotalPrice(products)
-      }
-    });
+
+    createReceipt(receipt)
+      .then(receiptId => {
+        alert("Receipt is created");
+        getReceipt(receiptId)
+          .then(receipt => {
+            const d = new Printd();
+            const el = <Receipt receipt={receipt} />;
+            d.print(el);
+          })
+          .catch(() => console.log("err"));
+      })
+      .catch(() => alert("err"));
   };
 
   handleKeyPress = e => {
@@ -112,6 +115,7 @@ class ReceiptCreate extends Component {
             <p>Total direct tax: {receipt.totalDirectTax}kn</p>
           </div>
         )}
+        <div onClick={this.createReceipt}>create receipt</div>
       </div>
     );
   }

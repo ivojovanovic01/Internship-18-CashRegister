@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using CashRegister.Data.Entities.Models;
+using CashRegister.Domain.Repositories.Implementations;
 
 namespace CashRegister.Domain.Repositories.Interfaces
 {
@@ -8,7 +9,7 @@ namespace CashRegister.Domain.Repositories.Interfaces
     {
         List<Receipt> GetAllReceipts();
         List<Receipt> GetReceipts(int cashierId, int cashRegisterId, int pageNumber, DateTime? filterDate);
-        bool AddReceipt(Receipt receiptToAdd);
+        Guid AddReceipt(ReceiptRepository.AddReceiptDto addReceiptDto);
         Receipt GetReceiptById(Guid id);
     }
 }

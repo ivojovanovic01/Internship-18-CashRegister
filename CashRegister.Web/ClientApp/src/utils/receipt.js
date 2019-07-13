@@ -21,6 +21,12 @@ export const getReceipt = receiptId => {
     .then(response => response.data);
 };
 
+export const createReceipt = receipt => {
+  return axios
+    .post("/api/receipts/add", receipt)
+    .then(response => response.data);
+};
+
 export const formatCreatedTime = createdTime => {
   return moment(createdTime).format("DD/MM/YYYY h:mm a");
 };
